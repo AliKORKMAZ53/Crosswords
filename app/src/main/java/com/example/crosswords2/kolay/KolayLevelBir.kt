@@ -26,12 +26,12 @@ class KolayLevelBir : AppCompatActivity() {
 
         harflist = ArrayList()
 
-        val layoutManager = GridLayoutManager(this,10)
+        val layoutManager = GridLayoutManager(this,12)
         recyclerView.layoutManager = layoutManager
         rvAdapter = RvAdapter(harflist,this)
         recyclerView.adapter = rvAdapter
 
-        for (i in 1..100){
+        for (i in 1..120){
             harflist.add(HarfKutusuModel("A"))
 
         }
