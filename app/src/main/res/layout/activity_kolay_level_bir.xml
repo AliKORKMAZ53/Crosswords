@@ -28,14 +28,16 @@
         android:paddingLeft="3dp"
         android:paddingRight="3dp">
 
-        <Button
+        <ImageButton
+            android:id="@+id/leftButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_weight="3"
-            android:text="L"
+            android:background="@drawable/left_arrow"
             android:textSize="26sp">
 
-        </Button>
+        </ImageButton>
 
         <TextView
             android:layout_width="match_parent"
@@ -47,14 +49,15 @@
 
         </TextView>
 
-        <Button
+        <ImageButton
+            android:id="@+id/rightButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3"
-            android:text="R"
+            android:background="@drawable/arrow_point_to_right"
             android:textSize="26sp">
 
-        </Button>
+        </ImageButton>
 
     </LinearLayout>
 
