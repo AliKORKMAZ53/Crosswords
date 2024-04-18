@@ -56,7 +56,7 @@ class KolayLevelBir : AppCompatActivity() {
         harflist.add(HarfKutusuModel("A"))
         harflist.add(HarfKutusuModel("T"))
         harflist.add(HarfKutusuModel("A"))
-        harflist.add(HarfKutusuModel("R"))
+        harflist.add(HarfKutusuModel("X"))
         harflist.add(HarfKutusuModel("R"))
         harflist.add(HarfKutusuModel("A"))
         harflist.add(HarfKutusuModel("Z"))
