@@ -49,6 +49,7 @@ class KolayLevelBir : AppCompatActivity() {
 
 
 
+
         harflist.add(HarfKutusuModel("K"))
         harflist.add(HarfKutusuModel("A"))
         harflist.add(HarfKutusuModel("R"))
@@ -72,5 +73,14 @@ class KolayLevelBir : AppCompatActivity() {
 
 
         rvAdapter.notifyDataSetChanged()
+    }
+    fun buttonClicked(view: View) {
+
+        if (view.getId() == R.id.button7) {
+            Toast.makeText(this@KolayLevelBir,"X",Toast.LENGTH_SHORT).show()
+        } else if (view.getId() == R.id.button11) {
+            Toast.makeText(this@KolayLevelBir,"W",Toast.LENGTH_SHORT).show()
+        }
+
     }
 }
