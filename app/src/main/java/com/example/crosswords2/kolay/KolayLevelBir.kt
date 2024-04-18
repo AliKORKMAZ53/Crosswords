@@ -2,6 +2,7 @@ package com.example.crosswords2.kolay
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -75,12 +76,8 @@ class KolayLevelBir : AppCompatActivity() {
         rvAdapter.notifyDataSetChanged()
     }
     fun buttonClicked(view: View) {
-
-        if (view.getId() == R.id.button7) {
-            Toast.makeText(this@KolayLevelBir,"X",Toast.LENGTH_SHORT).show()
-        } else if (view.getId() == R.id.button11) {
-            Toast.makeText(this@KolayLevelBir,"W",Toast.LENGTH_SHORT).show()
-        }
+        var button = view as Button
+            Toast.makeText(this@KolayLevelBir,button.text,Toast.LENGTH_SHORT).show()
 
     }
 }
