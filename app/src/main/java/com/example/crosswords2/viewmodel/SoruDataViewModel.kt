@@ -15,5 +15,11 @@ class SoruDataViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
+    fun getSorularData(bolumNo: Int){
+        viewModelScope.launch{
+            repository.getSoruDataByBolumNo(bolumNo)
+        }
+    }
+
     // Implement other CRUD operations and data retrieval methods
 }
