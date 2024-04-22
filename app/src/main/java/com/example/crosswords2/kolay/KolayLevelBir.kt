@@ -1,5 +1,6 @@
 package com.example.crosswords2.kolay
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -18,11 +19,12 @@ class KolayLevelBir : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var rvAdapter: RvAdapter
     lateinit var harflist: ArrayList<HarfKutusuModel>
-    var binding:ActivityKolayLevelBirBinding?=null
+    var binding: ActivityKolayLevelBirBinding? = null
+
     //Viewbinding kullanıldı, bundan sonra viewlar binding ile çağrılacak
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityKolayLevelBirBinding.inflate(layoutInflater)
+        binding = ActivityKolayLevelBirBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -40,12 +42,10 @@ class KolayLevelBir : AppCompatActivity() {
         binding?.recyclerView?.adapter = rvAdapter
 
         rvAdapter.setOnClickListener(object :
-            RvAdapter.OnClickListener{
+            RvAdapter.OnClickListener {
             override fun onClick(position: Int, model: HarfKutusuModel) {
-                Toast.makeText(this@KolayLevelBir,model.harf,Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@KolayLevelBir, model.harf, Toast.LENGTH_SHORT).show()
             }
-
-
         })
 
 
@@ -56,12 +56,12 @@ class KolayLevelBir : AppCompatActivity() {
         harflist.add(HarfKutusuModel("R"))
         harflist.add(HarfKutusuModel("E"))
         harflist.add(HarfKutusuModel("A"))
-        harflist.add(HarfKutusuModel("T"))
-        harflist.add(HarfKutusuModel("A"))
         harflist.add(HarfKutusuModel("X"))
+        harflist.add(HarfKutusuModel("X"))
+        harflist.add(HarfKutusuModel("K"))
         harflist.add(HarfKutusuModel("R"))
-        harflist.add(HarfKutusuModel("A"))
-        harflist.add(HarfKutusuModel("Z"))
+        harflist.add(HarfKutusuModel("X"))
+        harflist.add(HarfKutusuModel("X"))
         harflist.add(HarfKutusuModel("I"))
         harflist.add(HarfKutusuModel("E"))
         harflist.add(HarfKutusuModel("R"))
@@ -75,9 +75,10 @@ class KolayLevelBir : AppCompatActivity() {
 
         rvAdapter.notifyDataSetChanged()
     }
+
     fun buttonClicked(view: View) {
         var button = view as Button
-            Toast.makeText(this@KolayLevelBir,button.text,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@KolayLevelBir, button.text, Toast.LENGTH_SHORT).show()
 
     }
 }
