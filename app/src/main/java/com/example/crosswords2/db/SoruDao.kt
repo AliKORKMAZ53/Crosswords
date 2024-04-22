@@ -10,6 +10,7 @@ interface SoruDao {
     @Insert
     suspend fun insert(soruData: SoruData)
 
+    //UPDATE VE DELETE FONKSİYONLARI HANGİ RECORD ÜZERİNDE ÇALIŞACAĞINI BİLMİYOR
     @Update
     suspend fun update(soruData: SoruData)
 
@@ -20,5 +21,5 @@ interface SoruDao {
     suspend fun getAllSoruData(): ArrayList<SoruData>
 
     @Query("SELECT * FROM SoruData WHERE bolumNumarasi = :bolumNo")
-    suspend fun getSoruDataByBolumNoAndSoruNo(bolumNo: Int): ArrayList<SoruData>
+    suspend fun getSoruDataByBolumNo(bolumNo: Int): ArrayList<SoruData>
 }
