@@ -1,11 +1,13 @@
 package com.example.crosswords2.db
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.crosswords2.util.SoruData
+import com.example.crosswords2.tables.SoruData
 
+@Dao
 interface SoruDao {
     @Insert
     suspend fun insert(soruData: SoruData)

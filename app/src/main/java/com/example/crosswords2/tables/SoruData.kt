@@ -1,8 +1,7 @@
-package com.example.crosswords2.util
+package com.example.crosswords2.tables
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 @Entity(tableName = "SoruData")
 data class SoruData(

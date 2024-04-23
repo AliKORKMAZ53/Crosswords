@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.crosswords2.R
 import com.example.crosswords2.RvAdapter
 import com.example.crosswords2.databinding.ActivityKolayLevelBirBinding
-import com.example.crosswords2.util.HarfKutusuModel
+import com.example.crosswords2.tables.HarfKutusuModel
 import com.example.crosswords2.viewmodel.GenelViewModel
 
 class KolayLevelBir : AppCompatActivity() {
@@ -20,6 +20,7 @@ class KolayLevelBir : AppCompatActivity() {
     lateinit var rvAdapter: RvAdapter
     lateinit var harflist: ArrayList<HarfKutusuModel>
     var binding: ActivityKolayLevelBirBinding? = null
+    var BOLUMNO: Int = 0
 
     private lateinit var genelViewModel: GenelViewModel
 
@@ -27,6 +28,7 @@ class KolayLevelBir : AppCompatActivity() {
     //Viewbinding kullanıldı, bundan sonra viewlar binding ile çağrılacak
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //Binding
         binding = ActivityKolayLevelBirBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -35,12 +37,18 @@ class KolayLevelBir : AppCompatActivity() {
             insets
         }
 
+
+        BOLUMNO=intent.getIntExtra("bolumNo",0)
+
         genelViewModel= GenelViewModel(application)
+        genelViewModel.getBolumData(BOLUMNO)
+        genelViewModel.getSorularData(BOLUMNO)
+
         genelViewModel.bolum.observe(this,{
 
         })
         genelViewModel.sorular.observe(this,{
-            
+
         })
 
         recyclerView = findViewById(R.id.recyclerView)

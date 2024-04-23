@@ -1,4 +1,4 @@
-package com.example.crosswords2.util
+package com.example.crosswords2.tables
 
 class HarfKutusuModel(var harf: String/*, var kosedekiSayi: Int*/) {
     fun getBirHarf(): String {

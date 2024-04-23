@@ -23,6 +23,7 @@ class KolayLevelSelection : AppCompatActivity() {
         buttonLevelBir = findViewById(R.id.buttonL1)
         buttonLevelBir.setOnClickListener {
             val intent = Intent(this@KolayLevelSelection, KolayLevelBir::class.java)
+            intent.putExtra("bolumNo",0)
             startActivity(intent)
         }
     }

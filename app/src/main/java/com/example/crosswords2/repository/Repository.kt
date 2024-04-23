@@ -2,8 +2,8 @@ package com.example.crosswords2.repository
 
 import com.example.crosswords2.db.BolumDao
 import com.example.crosswords2.db.SoruDao
-import com.example.crosswords2.util.BolumData
-import com.example.crosswords2.util.SoruData
+import com.example.crosswords2.tables.BolumData
+import com.example.crosswords2.tables.SoruData
 
 class Repository(private val bolumDao: BolumDao, private val soruDao: SoruDao) {
     suspend fun insertBolumData(bolumData: BolumData) {

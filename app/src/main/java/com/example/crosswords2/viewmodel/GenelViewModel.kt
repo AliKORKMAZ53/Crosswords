@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.crosswords2.db.GenelDatabase
 import com.example.crosswords2.repository.Repository
-import com.example.crosswords2.util.BolumData
-import com.example.crosswords2.util.SoruData
+import com.example.crosswords2.tables.BolumData
+import com.example.crosswords2.tables.SoruData
 import kotlinx.coroutines.launch
 
 class GenelViewModel(application: Application) : ViewModel() {
