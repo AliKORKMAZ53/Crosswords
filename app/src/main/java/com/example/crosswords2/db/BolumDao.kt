@@ -18,9 +18,6 @@ interface BolumDao {
     @Delete
     suspend fun delete(bolumData: BolumData)
 
-    @Query("SELECT * FROM BolumData")
-    suspend fun getAllBolumData(): ArrayList<BolumData>
-
     @Query("SELECT * FROM BolumData WHERE bolumNumarasi = :bolumNo")
     suspend fun getBolumDataByBolumNo(bolumNo: Int): BolumData?
 }

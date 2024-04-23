@@ -2,9 +2,14 @@ package com.example.crosswords2.tables
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "SoruData")
 data class SoruData(
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "soru_id")
+    var soru_id: Int,
 
     @ColumnInfo(name = "bolumNumarasi")
     var bolumNo: Int,

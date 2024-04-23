@@ -19,9 +19,7 @@ interface SoruDao {
     @Delete
     suspend fun delete(soruData: SoruData)
 
-    @Query("SELECT * FROM SoruData")
-    suspend fun getAllSoruData(): ArrayList<SoruData>
 
     @Query("SELECT * FROM SoruData WHERE bolumNumarasi = :bolumNo")
-    suspend fun getSoruDataByBolumNo(bolumNo: Int): ArrayList<SoruData>
+    suspend fun getSoruDataByBolumNo(bolumNo: Int): List<SoruData>
 }

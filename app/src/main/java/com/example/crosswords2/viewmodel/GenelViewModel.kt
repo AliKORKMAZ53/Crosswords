@@ -15,7 +15,7 @@ class GenelViewModel(application: Application) : ViewModel() {
 
     val repository : Repository
     val bolum= MutableLiveData<BolumData?>()
-    val sorular= MutableLiveData<ArrayList<SoruData>>()
+    val sorular= MutableLiveData<List<SoruData>>()
 
     init {
         val db= GenelDatabase.getGenelDatabase(application)

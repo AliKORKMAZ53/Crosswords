@@ -3,7 +3,6 @@ package com.example.crosswords2.kolay
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,7 +21,7 @@ class KolayLevelSelection : AppCompatActivity() {
         }
         buttonLevelBir = findViewById(R.id.buttonL1)
         buttonLevelBir.setOnClickListener {
-            val intent = Intent(this@KolayLevelSelection, KolayLevelBir::class.java)
+            val intent = Intent(this@KolayLevelSelection, KolayPlayActivity::class.java)
             intent.putExtra("bolumNo",0)
             startActivity(intent)
         }

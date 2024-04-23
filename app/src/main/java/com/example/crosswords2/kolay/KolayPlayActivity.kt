@@ -15,7 +15,7 @@ import com.example.crosswords2.databinding.ActivityKolayLevelBirBinding
 import com.example.crosswords2.tables.HarfKutusuModel
 import com.example.crosswords2.viewmodel.GenelViewModel
 
-class KolayLevelBir : AppCompatActivity() {
+class KolayPlayActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var rvAdapter: RvAdapter
     lateinit var harflist: ArrayList<HarfKutusuModel>
@@ -64,7 +64,7 @@ class KolayLevelBir : AppCompatActivity() {
         rvAdapter.setOnClickListener(object :
             RvAdapter.OnClickListener {
             override fun onClick(position: Int, model: HarfKutusuModel) {
-                Toast.makeText(this@KolayLevelBir, model.harf, Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@KolayPlayActivity, model.harf, Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -98,7 +98,7 @@ class KolayLevelBir : AppCompatActivity() {
 
     fun buttonClicked(view: View) {
         var button = view as Button
-        Toast.makeText(this@KolayLevelBir, button.text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@KolayPlayActivity, button.text, Toast.LENGTH_SHORT).show()
 
     }
 }

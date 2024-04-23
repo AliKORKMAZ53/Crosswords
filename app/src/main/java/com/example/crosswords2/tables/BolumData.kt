@@ -11,13 +11,16 @@ data class BolumData(
     var bolumNo: Int,
 
     @ColumnInfo(name = "harflerIndexi")
-    var harflerIndexi: ArrayList<String>,
+    var harflerIndexi: String,
 
     @ColumnInfo(name = "ilerlemeIndexi")
-    var ilerlemeIndexi: ArrayList<String>,
+    var ilerlemeIndexi: String,
 
     @ColumnInfo(name = "kesisenSayilar")
-    var kesisenSayilar: Array<Int>
+    var kesisenSayilar: String,
+
+    @ColumnInfo(name = "spanCount")
+    var spanCount: Int
 
 
 )
