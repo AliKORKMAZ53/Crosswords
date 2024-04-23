@@ -1,6 +1,5 @@
 package com.example.crosswords2.kolay
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -14,12 +13,16 @@ import com.example.crosswords2.R
 import com.example.crosswords2.RvAdapter
 import com.example.crosswords2.databinding.ActivityKolayLevelBirBinding
 import com.example.crosswords2.util.HarfKutusuModel
+import com.example.crosswords2.viewmodel.GenelViewModel
 
 class KolayLevelBir : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var rvAdapter: RvAdapter
     lateinit var harflist: ArrayList<HarfKutusuModel>
     var binding: ActivityKolayLevelBirBinding? = null
+
+    private lateinit var genelViewModel: GenelViewModel
+
 
     //Viewbinding kullanıldı, bundan sonra viewlar binding ile çağrılacak
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +34,15 @@ class KolayLevelBir : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        genelViewModel= GenelViewModel(application)
+        genelViewModel.bolum.observe(this,{
+
+        })
+        genelViewModel.sorular.observe(this,{
+            
+        })
+
         recyclerView = findViewById(R.id.recyclerView)
 
         harflist = ArrayList()

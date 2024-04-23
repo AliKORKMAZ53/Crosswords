@@ -10,12 +10,12 @@ import com.example.crosswords2.util.SoruData
 @Database(entities = [BolumData::class, SoruData::class], version = 1)
 abstract class GenelDatabase: RoomDatabase() {
     abstract fun bolumDao(): BolumDao
-    abstract fun sourDao(): SoruDao
+    abstract fun soruDao(): SoruDao
 
     companion object {
         private var instance: GenelDatabase? = null
 
-        fun getStudentDatabase(context: Context): GenelDatabase? {
+        fun getGenelDatabase(context: Context): GenelDatabase? {
 
             if (instance == null) {
                 instance = Room.databaseBuilder(

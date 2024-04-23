@@ -45,4 +45,6 @@ class Repository(private val bolumDao: BolumDao, private val soruDao: SoruDao) {
     suspend fun getSoruDataByBolumNo(bolumNo: Int): ArrayList<SoruData> {
         return soruDao.getSoruDataByBolumNo(bolumNo)
     }
+
+
 }
