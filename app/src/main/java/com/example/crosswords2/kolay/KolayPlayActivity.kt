@@ -1,5 +1,6 @@
 package com.example.crosswords2.kolay
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -73,7 +74,8 @@ class KolayPlayActivity : AppCompatActivity() {
         //Bulmacanin Onclick'i
         rvAdapter.setOnClickListener(object :
             RvAdapter.OnClickListener {
-            override fun onClick(position: Int, model: HarfKutusuModel) {
+            override fun onClick(position: Int, model: HarfKutusuModel,view: View) {
+                view.setBackgroundColor(Color.CYAN)
                 
             }
         })

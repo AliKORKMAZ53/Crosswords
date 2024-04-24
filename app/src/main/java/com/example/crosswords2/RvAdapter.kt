@@ -29,18 +29,18 @@ class RvAdapter(
 
     // onClickListener Interface
     interface OnClickListener{
-        fun onClick(position: Int, model: HarfKutusuModel)
+        fun onClick(position: Int, model: HarfKutusuModel,recItem:View)
     }
 
     override fun onBindViewHolder(holder: RvAdapter.HarfViewHolder, position: Int) {
         if(harfList.get(position).harf=="X"){
             holder.harfTextView.visibility=View.INVISIBLE
         }else{
-            
+
             holder.harfTextView.text = harfList.get(position).harf
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
-                    onClickListener!!.onClick(position, harfList.get(position) )
+                    onClickListener!!.onClick(position, harfList.get(position),holder.harfTextView )
                 }
             }
         }
