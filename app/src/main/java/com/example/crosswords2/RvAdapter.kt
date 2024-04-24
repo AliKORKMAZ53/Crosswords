@@ -36,6 +36,7 @@ class RvAdapter(
         if(harfList.get(position).harf=="X"){
             holder.harfTextView.visibility=View.INVISIBLE
         }else{
+            
             holder.harfTextView.text = harfList.get(position).harf
             holder.itemView.setOnClickListener {
                 if (onClickListener != null) {
