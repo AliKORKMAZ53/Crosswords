@@ -99,10 +99,8 @@ class KolayPlayActivity : AppCompatActivity() {
                     }
 
                 }
-                Log.d("tagu",arrayofIds.toString())
-                Log.d("tagu",soruArraylist.toString())
-                Log.d("tagu",b.toString())
-                Log.d("tagu",theMap.toString())
+                Log.d("tagu",view.id.toString())
+
 
 
                 /*

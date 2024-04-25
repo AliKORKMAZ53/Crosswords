@@ -34,6 +34,7 @@ class RvAdapter(
     }
 
     override fun onBindViewHolder(holder: RvAdapter.HarfViewHolder, position: Int) {
+        holder.harfTextView.id= View.generateViewId()
         arrayofIds.add(holder.harfTextView.id)
 
         if(harfList.get(position).harf=="X"){
