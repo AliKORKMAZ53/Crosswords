@@ -29,6 +29,9 @@ data class SoruData(
     @ColumnInfo("konumBitisNo")
     var bitisNo: Int,
 
+    @ColumnInfo("tumKonum")
+    var tumKonum: String,
+
     @ColumnInfo("ipucu")
     var ipucu: String
 

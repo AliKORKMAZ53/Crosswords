@@ -12,6 +12,7 @@ class RvAdapter(
     private val harfList: ArrayList<HarfKutusuModel>,
     private val context: Context
 ) : RecyclerView.Adapter<RvAdapter.HarfViewHolder>() {
+    var arrayofIds= ArrayList<Int>()
     private var onClickListener: OnClickListener? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,6 +34,8 @@ class RvAdapter(
     }
 
     override fun onBindViewHolder(holder: RvAdapter.HarfViewHolder, position: Int) {
+        arrayofIds.add(holder.harfTextView.id)
+
         if(harfList.get(position).harf=="X"){
             holder.harfTextView.visibility=View.INVISIBLE
         }else{
@@ -45,6 +48,10 @@ class RvAdapter(
             }
         }
 
+    }
+
+    fun getArrayOfIds():ArrayList<Int>{
+        return arrayofIds
     }
 
     override fun getItemCount(): Int {
