@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -58,6 +59,8 @@ class KolayPlayActivity : AppCompatActivity() {
          */
 
 
+
+
         harflist = ArrayList()
 
         genelViewModel.getBolumData(BOLUMNO)
@@ -79,52 +82,45 @@ class KolayPlayActivity : AppCompatActivity() {
         rvAdapter.setOnClickListener(object :
             RvAdapter.OnClickListener {
             override fun onClick(position: Int, model: HarfKutusuModel, view: View) {
-                var b = ArrayList<Int>()
-                view.setBackgroundColor(Color.CYAN)
 
-                    /*
-                    if (it.soruNo == theMap[position]!!) {
-                        b = convertStringToIntList(it.tumKonum)
-                    }
-                     */
+
                     var selectedMap= theMap.filterValues {
-                        it.contains(position)
+                        it.contains(position+1)
                     }
 
 
-
+                arrayofIds.forEach {
+                    findViewById<View>(it).setBackgroundColor(Color.WHITE)
+                    findViewById<View>(it).setBackgroundResource(R.drawable.back)
+                }
                 selectedMap.forEach {
                     it.value.forEach {
-                        findViewById<View>(arrayofIds.get(it-1)).setBackgroundColor(Color.GREEN)
+                        Log.d("tagu","${it.toString()} konum")
+                        Log.d("tagu","${arrayofIds.get(it-1)} arrayofIDs")
+
+
+                        findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
                     }
+                    findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key-1].ipucu)
 
                 }
+                view.setBackgroundColor(Color.CYAN)
                 Log.d("tagu",view.id.toString())
+                Log.d("tagu",position.toString())
 
-
-
-                /*
-                var baslangicNo = soruArraylist.get(position).baslangicNo
-                var bitisNo= soruArraylist.get(position).bitisNo
-                counter= baslangicNo
-                if(soruArraylist.get(position).yatayMi){
-                    if (baslangicNo <= position && position <= bitisNo){
-                        counter++
-                        return onClick(counter,model,view)
-                    }
-                }else{
-                }
-                 */
 
             }
         })
 
         genelViewModel.bolum.observe(this) {
-            var size = it?.harflerIndexi?.length
-            for (x in 0..size!! - 1) {
-                harflist.add(HarfKutusuModel(it?.harflerIndexi?.get(x).toString()))
+            if (it != null) {
+                var size = it?.harflerIndexi?.length
+                for (x in 0..size!! - 1) {
+                    harflist.add(HarfKutusuModel(it?.harflerIndexi?.get(x).toString()))
+                }
+                rvAdapter.notifyDataSetChanged()
             }
-            rvAdapter.notifyDataSetChanged()
+
         }
 
         genelViewModel.sorular.observe(this, {
