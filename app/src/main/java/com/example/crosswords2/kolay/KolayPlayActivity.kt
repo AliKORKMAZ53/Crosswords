@@ -27,6 +27,7 @@ class KolayPlayActivity : AppCompatActivity() {
     lateinit var harflist: ArrayList<HarfKutusuModel>
     var binding: ActivityKolayLevelBirBinding? = null
     var BOLUMNO: Int = 0
+    var touchCounter: Int= 0
     val theMap = mutableMapOf<Int, ArrayList<Int>>()
     private lateinit var genelViewModel: GenelViewModel
     lateinit var soruArraylist: ArrayList<SoruData>
@@ -93,17 +94,50 @@ class KolayPlayActivity : AppCompatActivity() {
                     findViewById<View>(it).setBackgroundColor(Color.WHITE)
                     findViewById<View>(it).setBackgroundResource(R.drawable.back)
                 }
-                selectedMap.forEach {
-                    it.value.forEach {
-                        Log.d("tagu","${it.toString()} konum")
-                        Log.d("tagu","${arrayofIds.get(it-1)} arrayofIDs")
 
-
-                        findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
+                if(selectedMap.size==1){
+                    selectedMap.forEach {
+                        it.value.forEach {
+                            Log.d("tagu","${it.toString()} konum")
+                            Log.d("tagu","${arrayofIds.get(it-1)} arrayofIDs")
+                            findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
+                        }
+                        findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key-1].ipucu)
                     }
-                    findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key-1].ipucu)
+                }else if (selectedMap.size==2){
+                    if(touchCounter%2==0){
+                        var twoItemMap=selectedMap.entries.toList()
+                        twoItemMap.get(0).value.forEach {
+                            findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
+                        }
+                        findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(0).key-1].ipucu)
+                        touchCounter++
+                    }else{
+                        var twoItemMap=selectedMap.entries.toList()
+                        twoItemMap.get(1).value.forEach {
+                            findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
+                        }
+                        findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(1).key-1].ipucu)
+                        touchCounter++
+                    }
 
+
+                    /*
+                    selectedMap.forEach {
+                        it.value.forEach {
+                            Log.d("tagu","${it.toString()} konum")
+                            Log.d("tagu","${arrayofIds.get(it-1)} arrayofIDs")
+                            findViewById<View>(arrayofIds.get(it-1)).setBackgroundResource(R.drawable.colored_back)
+                        }
+                        findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key-1].ipucu)
+                    }
+
+                     */
+                }else{
+                    Toast.makeText(this@KolayPlayActivity,"${selectedMap.size} :mapsize error",Toast.LENGTH_SHORT).show()
                 }
+
+
                 view.setBackgroundColor(Color.CYAN)
                 Log.d("tagu",view.id.toString())
                 Log.d("tagu",position.toString())
