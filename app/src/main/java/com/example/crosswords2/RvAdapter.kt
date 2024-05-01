@@ -30,7 +30,7 @@ class RvAdapter(
 
     // onClickListener Interface
     interface OnClickListener{
-        fun onClick(position: Int, model: HarfKutusuModel,recItem:View)
+        fun onClick(position: Int, model: HarfKutusuModel,recItem:TextView)
     }
 
     override fun onBindViewHolder(holder: RvAdapter.HarfViewHolder, position: Int) {
