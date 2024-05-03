@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crosswords2.R
@@ -27,10 +28,9 @@ class KolayPlayActivity : AppCompatActivity() {
     var binding: ActivityKolayLevelBirBinding? = null
     var BOLUMNO: Int = 0
     var touchCounter: Int = 0
-    var numberOfChild : Int = 0
-    lateinit var textViewHolder : TextView
-    lateinit var viewHolder : View
-    lateinit var arrayofIds : ArrayList<Int>
+    lateinit var textViewHolder: TextView
+    lateinit var viewHolder: View
+    lateinit var arrayofIds: ArrayList<Int>
     val theMap = mutableMapOf<Int, ArrayList<Int>>()
     lateinit var selectedMap: Map<Int, ArrayList<Int>>
     private lateinit var genelViewModel: GenelViewModel
@@ -79,13 +79,17 @@ class KolayPlayActivity : AppCompatActivity() {
         arrayofIds = rvAdapter.getArrayOfIds()
 
 
-
         //Bulmacanin Onclick'i
         rvAdapter.setOnClickListener(object :
             RvAdapter.OnClickListener {
-            override fun onClick(position: Int, model: HarfKutusuModel, textView: TextView, viewItem: View ) {
-                textViewHolder=textView
-                viewHolder= viewItem
+            override fun onClick(
+                position: Int,
+                model: HarfKutusuModel,
+                textView: TextView,
+                viewItem: View
+            ) {
+                textViewHolder = textView
+                viewHolder = viewItem
 
                 selectedMap = theMap.filterValues {
                     it.contains(position + 1)
@@ -104,7 +108,7 @@ class KolayPlayActivity : AppCompatActivity() {
                             //Alt satirdaki kod loop sonundaki değeri alıyor yani 5 bu durumda
                             //nextView = arrayofIds.get(it)
                             findViewById<View>(arrayofIds.get(it - 1)).setBackgroundResource(R.drawable.colored_back)
-                            
+
                         }
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key - 1].ipucu)
                     }
@@ -153,6 +157,7 @@ class KolayPlayActivity : AppCompatActivity() {
                     harflist.add(HarfKutusuModel(it?.harflerIndexi?.get(x).toString()))
                 }
                 rvAdapter.notifyDataSetChanged()
+                //recyclerView.getChildAt(0).callOnClick()
             }
 
         }
@@ -169,19 +174,37 @@ class KolayPlayActivity : AppCompatActivity() {
             }
         })
 
-        numberOfChild=recyclerView.childCount
 
     }
 
     //Klavyenin Onclick'i
     fun buttonClicked(view: View) {
         var button = view as Button
-        if(textViewHolder!=null){
+        if (textViewHolder != null) {
             textViewHolder.setText(button.text)
             var a = recyclerView.indexOfChild(viewHolder)
-            recyclerView.getChildAt(a+1).callOnClick()
+            var b = recyclerView.childCount
 
-            Log.d("tags",a.toString())
+            if(a+1==b){
+
+            }else{
+                if (recyclerView.getChildAt(a + 1).isVisible) {
+                    recyclerView.getChildAt(a + 1).callOnClick()
+                } else if (recyclerView.getChildAt(a + 1).visibility == View.INVISIBLE) {
+                    loop@ for (i in a + 1..a + 9) {
+                        if (recyclerView.getChildAt(i).isVisible) {
+                            Log.d("tugs","if inside loop statement caught :${i}")
+                            recyclerView.getChildAt(i).callOnClick()
+                            break@loop
+                        }
+                    }
+                }else{
+                    Log.d("tugs","else statement caught")
+                }
+            }
+
+
+            Log.d("tags", a.toString())
         }
 
 

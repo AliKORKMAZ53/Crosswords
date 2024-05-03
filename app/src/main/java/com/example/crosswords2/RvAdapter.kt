@@ -38,7 +38,7 @@ class RvAdapter(
         arrayofIds.add(holder.harfTextView.id)
 
         if(harfList.get(position).harf=="X"){
-            holder.harfTextView.visibility=View.INVISIBLE
+            holder.itemView.visibility=View.INVISIBLE
         }else{
 
             holder.harfTextView.text = harfList.get(position).harf
