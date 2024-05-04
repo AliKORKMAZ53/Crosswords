@@ -2,6 +2,7 @@ package com.example.crosswords2.kolay
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -19,6 +20,11 @@ import com.example.crosswords2.databinding.ActivityKolayLevelBirBinding
 import com.example.crosswords2.tables.HarfKutusuModel
 import com.example.crosswords2.tables.SoruData
 import com.example.crosswords2.viewmodel.GenelViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class KolayPlayActivity : AppCompatActivity() {
@@ -30,11 +36,15 @@ class KolayPlayActivity : AppCompatActivity() {
     var touchCounter: Int = 0
     lateinit var textViewHolder: TextView
     lateinit var viewHolder: View
-    lateinit var arrayofIds: ArrayList<Int>
+    lateinit var arrayofTextViewIds: ArrayList<Int>
+    lateinit var arrayofViewIds: ArrayList<Int>
+    lateinit var nextBox: View
+    var selectedBoxesIndexes = ArrayList<Int>()
     val theMap = mutableMapOf<Int, ArrayList<Int>>()
     lateinit var selectedMap: Map<Int, ArrayList<Int>>
     private lateinit var genelViewModel: GenelViewModel
     lateinit var soruArraylist: ArrayList<SoruData>
+
 
     //Viewbinding kullanıldı, bundan sonra viewlar binding ile çağrılacak
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,14 +79,7 @@ class KolayPlayActivity : AppCompatActivity() {
         genelViewModel.getSorularData(BOLUMNO)
 
 
-        recyclerView = findViewById(R.id.recyclerView)
-
-
-        //SPAN COUNT DINAMIC OLABILIR MI?
-        binding?.recyclerView?.layoutManager = GridLayoutManager(this, 4)
-        rvAdapter = RvAdapter(harflist, this)
-        binding?.recyclerView?.adapter = rvAdapter
-        arrayofIds = rvAdapter.getArrayOfIds()
+        settleRecyclerView()
 
 
         //Bulmacanin Onclick'i
@@ -90,48 +93,55 @@ class KolayPlayActivity : AppCompatActivity() {
             ) {
                 textViewHolder = textView
                 viewHolder = viewItem
-
+                Log.d("tags", "${touchCounter.toString()} item bas click")
                 selectedMap = theMap.filterValues {
                     it.contains(position + 1)
                 }
 
 
-                arrayofIds.forEach {
+                arrayofTextViewIds.forEach {
                     findViewById<View>(it).setBackgroundResource(R.drawable.back)
                 }
 
-                if (selectedMap.size == 1) {
+                if (selectedMap.size == 1) { //kesisen kutu degil
                     selectedMap.forEach {
                         it.value.forEach {
-                            Log.d("tagu", "${it.toString()} konum")
-                            Log.d("tagu", "${arrayofIds.get(it - 1)} arrayofIDs")
-                            //Alt satirdaki kod loop sonundaki değeri alıyor yani 5 bu durumda
-                            //nextView = arrayofIds.get(it)
-                            findViewById<View>(arrayofIds.get(it - 1)).setBackgroundResource(R.drawable.colored_back)
-
+                            findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
+                                R.drawable.colored_back
+                            )
                         }
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key - 1].ipucu)
+                        if (soruArraylist[it.key - 1].yatayMi) {
+                            touchCounter = 0 // yatay
+                        } else {
+                            touchCounter = 1 //dikey
+                        }
                     }
-                } else if (selectedMap.size == 2) {
-                    if (touchCounter % 2 == 0) {
+                } else if (selectedMap.size == 2) { //kesisen kutu ise
+                    if (touchCounter % 2 == 0) { //yatay duzlem
                         //twoItemMap - Kesisen kareler icin Map
                         var twoItemMap = selectedMap.entries.toList()
                         twoItemMap.get(0).value.forEach {
-                            //nextView = arrayofIds.get(it)
-                            findViewById<View>(arrayofIds.get(it - 1)).setBackgroundResource(R.drawable.colored_back)
+                            findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
+                                R.drawable.colored_back
+                            )
                         }
+                        //var yataymi= soruArraylist.get(twoItemMap.get(0).value[0])
+
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(0).key - 1].ipucu)
-                        touchCounter++
-                    } else {
+                        touchCounter = 1
+                    } else { //dikey duzlem
                         var twoItemMap = selectedMap.entries.toList()
                         twoItemMap.get(1).value.forEach {
-                            //nextView = arrayofIds.get(it)
-                            findViewById<View>(arrayofIds.get(it - 1)).setBackgroundResource(R.drawable.colored_back)
+                            findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
+                                R.drawable.colored_back
+                            )
+                            selectedBoxesIndexes.add(arrayofTextViewIds.get(it - 1))
                         }
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(1).key - 1].ipucu)
-                        touchCounter++
+                        touchCounter = 0
                     }
-
+                    Log.d("tags", "${touchCounter.toString()} item son click")
                 } else {
                     Toast.makeText(
                         this@KolayPlayActivity,
@@ -141,11 +151,9 @@ class KolayPlayActivity : AppCompatActivity() {
                 }
 
 
-
                 textView.setBackgroundColor(Color.CYAN)
                 Log.d("tagu", textView.id.toString())
                 Log.d("tagu", position.toString())
-
 
             }
         })
@@ -157,54 +165,64 @@ class KolayPlayActivity : AppCompatActivity() {
                     harflist.add(HarfKutusuModel(it?.harflerIndexi?.get(x).toString()))
                 }
                 rvAdapter.notifyDataSetChanged()
-                //recyclerView.getChildAt(0).callOnClick()
             }
-
         }
 
         genelViewModel.sorular.observe(this, {
             soruArraylist = it as ArrayList
-
             soruArraylist.forEach { soru -> //4 KERE DONER
                 var geciciKonumList = convertStringToIntList(soru.tumKonum) //4 ITEM DONER
                 var soruNo = soru.soruNo
-
                 theMap.put(soruNo, geciciKonumList)
-
             }
         })
 
+    GlobalScope.launch {
+        delay(500)
+        if(recyclerView.getChildAt(0)!=null){
+            recyclerView.getChildAt(0).callOnClick()
+        }else{
+            Log.d("tags","RW empty")
+        }
+    }
 
     }
+    fun settleRecyclerView(){
+        recyclerView = findViewById(R.id.recyclerView)
+        //SPAN COUNT DINAMIC OLABILIR MI?
+        binding?.recyclerView?.layoutManager = GridLayoutManager(this, 4)
+        rvAdapter = RvAdapter(harflist, this)
+        binding?.recyclerView?.adapter = rvAdapter
+        arrayofTextViewIds = rvAdapter.getArrayOfTextViewIds()
+        arrayofViewIds = rvAdapter.getArrayOfViewIds()
+    }
+
 
     //Klavyenin Onclick'i
     fun buttonClicked(view: View) {
         var button = view as Button
         if (textViewHolder != null) {
             textViewHolder.setText(button.text)
+
             var a = recyclerView.indexOfChild(viewHolder)
             var b = recyclerView.childCount
+            Log.d("tags", "${touchCounter.toString()} klavye bas click")
 
-            if(a+1==b){
 
-            }else{
-                if (recyclerView.getChildAt(a + 1).isVisible) {
+            if (a + 1 == b) {
+            } else { //last item değilse
+                if (touchCounter % 2 == 1) { // dikeyse
+
+                    recyclerView.getChildAt(a + 4).callOnClick()
+
+                } else {//yataysa
                     recyclerView.getChildAt(a + 1).callOnClick()
-                } else if (recyclerView.getChildAt(a + 1).visibility == View.INVISIBLE) {
-                    loop@ for (i in a + 1..a + 9) {
-                        if (recyclerView.getChildAt(i).isVisible) {
-                            Log.d("tugs","if inside loop statement caught :${i}")
-                            recyclerView.getChildAt(i).callOnClick()
-                            break@loop
-                        }
-                    }
-                }else{
-                    Log.d("tugs","else statement caught")
                 }
+
             }
 
 
-            Log.d("tags", a.toString())
+            Log.d("tags", "${touchCounter.toString()} klavye son click")
         }
 
 
