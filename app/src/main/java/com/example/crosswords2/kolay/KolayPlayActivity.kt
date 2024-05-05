@@ -2,7 +2,6 @@ package com.example.crosswords2.kolay
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -11,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crosswords2.R
@@ -21,10 +19,8 @@ import com.example.crosswords2.tables.HarfKutusuModel
 import com.example.crosswords2.tables.SoruData
 import com.example.crosswords2.viewmodel.GenelViewModel
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class KolayPlayActivity : AppCompatActivity() {
@@ -39,7 +35,7 @@ class KolayPlayActivity : AppCompatActivity() {
     lateinit var arrayofTextViewIds: ArrayList<Int>
     lateinit var arrayofViewIds: ArrayList<Int>
     lateinit var nextBox: View
-    var selectedBoxesIndexes = ArrayList<Int>()
+    var seciliKonumunIndexleri = ArrayList<Int>()
     val theMap = mutableMapOf<Int, ArrayList<Int>>()
     lateinit var selectedMap: Map<Int, ArrayList<Int>>
     private lateinit var genelViewModel: GenelViewModel
@@ -104,11 +100,13 @@ class KolayPlayActivity : AppCompatActivity() {
                 }
 
                 if (selectedMap.size == 1) { //kesisen kutu degil
+                    seciliKonumunIndexleri.clear()
                     selectedMap.forEach {
                         it.value.forEach {
                             findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
                                 R.drawable.colored_back
                             )
+                            seciliKonumunIndexleri.add(it)
                         }
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[it.key - 1].ipucu)
                         if (soruArraylist[it.key - 1].yatayMi) {
@@ -118,30 +116,38 @@ class KolayPlayActivity : AppCompatActivity() {
                         }
                     }
                 } else if (selectedMap.size == 2) { //kesisen kutu ise
+                    seciliKonumunIndexleri.clear()
+                    var twoItemMap = selectedMap.entries.toList()
+                    
                     if (touchCounter % 2 == 0) { //yatay duzlem
                         //twoItemMap - Kesisen kareler icin Map
-                        var twoItemMap = selectedMap.entries.toList()
+
+
                         twoItemMap.get(0).value.forEach {
                             findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
                                 R.drawable.colored_back
                             )
+                            seciliKonumunIndexleri.add(it)
                         }
-                        //var yataymi= soruArraylist.get(twoItemMap.get(0).value[0])
+
 
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(0).key - 1].ipucu)
-                        touchCounter = 1
+
                     } else { //dikey duzlem
-                        var twoItemMap = selectedMap.entries.toList()
+
+
                         twoItemMap.get(1).value.forEach {
                             findViewById<View>(arrayofTextViewIds.get(it - 1)).setBackgroundResource(
                                 R.drawable.colored_back
                             )
-                            selectedBoxesIndexes.add(arrayofTextViewIds.get(it - 1))
+                            seciliKonumunIndexleri.add(it)
                         }
+                        //var yataymi= soruArraylist.get(twoItemMap.get(1).value[0]).yatayMi
+
                         findViewById<TextView>(R.id.hintTw).setText(soruArraylist[twoItemMap.get(1).key - 1].ipucu)
-                        touchCounter = 0
+
                     }
-                    Log.d("tags", "${touchCounter.toString()} item son click")
+
                 } else {
                     Toast.makeText(
                         this@KolayPlayActivity,
@@ -210,13 +216,24 @@ class KolayPlayActivity : AppCompatActivity() {
 
 
             if (a + 1 == b) {
-            } else { //last item değilse
+            } else { //en son item değilse
                 if (touchCounter % 2 == 1) { // dikeyse
+                    if(seciliKonumunIndexleri[3]==a+1){
+                        Log.d("mags", " ${seciliKonumunIndexleri[3]} - ${a+1} if statement")
 
-                    recyclerView.getChildAt(a + 4).callOnClick()
+                    }else{
+                        Log.d("mags", " ${seciliKonumunIndexleri[3]} - ${a+1} else statement")
+
+                        recyclerView.getChildAt(a + 4).callOnClick()
+                    }
 
                 } else {//yataysa
-                    recyclerView.getChildAt(a + 1).callOnClick()
+                    if(seciliKonumunIndexleri[3]==a+1){
+
+                    }else{
+                        recyclerView.getChildAt(a + 1).callOnClick()
+
+                    }
                 }
 
             }
