@@ -16,8 +16,8 @@ interface BolumDao {
     @Update
     suspend fun update(bolumData: BolumData)
 
-    @Delete
-    suspend fun delete(bolumData: BolumData)
+    @Query("DELETE FROM BolumData")
+    suspend fun deleteAllBolums()
 
     @Query("SELECT * FROM BolumData WHERE bolumNumarasi = :bolumNo")
     suspend fun getBolumDataByBolumNo(bolumNo: Int): BolumData?

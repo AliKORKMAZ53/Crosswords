@@ -50,6 +50,13 @@ class GenelViewModel(application: Application) : ViewModel() {
         }
     }
 
+    fun deleteBolums(){
+        viewModelScope.launch {
+            repository.deleteAllBolums()
+        }
+
+    }
+
 
 
 }

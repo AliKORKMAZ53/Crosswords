@@ -13,11 +13,9 @@ class Repository(private val bolumDao: BolumDao, private val soruDao: SoruDao) {
     suspend fun updateBolumData(bolumData: BolumData) {
         bolumDao.update(bolumData)
     }
-
-    suspend fun deleteBolumData(bolumData: BolumData) {
-        bolumDao.delete(bolumData)
+    suspend fun deleteAllBolums() {
+        bolumDao.deleteAllBolums()
     }
-
 
 
     suspend fun getBolumDataByBolumNo(bolumNo: Int): BolumData? {
@@ -41,6 +39,8 @@ class Repository(private val bolumDao: BolumDao, private val soruDao: SoruDao) {
     suspend fun getSoruDataByBolumNo(bolumNo: Int): List<SoruData> {
         return soruDao.getSoruDataByBolumNo(bolumNo)
     }
+
+
 
 
 }
